@@ -48,12 +48,12 @@ class GoogleMapMachine:
         total_reviews_div = soup.find("div", {"class": "F7nice"})
         total_star = total_reviews_div.span.get_text()
         number_of_review = total_reviews_div.span.next_sibling.span.get_text()
-        number_of_review = re.findall(r'\d+', number_of_review)
-        number_of_review = int(number_of_review[0])
+        number_of_review = re.findall(r'\d+,\d+', number_of_review)
+        number_of_review = number_of_review[0].replace(',', '')
 
         self.data["result"] = {
             'total_star': float(total_star),
-            'number_of_review': number_of_review,
+            'number_of_review': int(number_of_review),
             'reviews': [],
         }
 
