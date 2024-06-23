@@ -6,6 +6,12 @@ from selenium import webdriver
 from abc import ABC, abstractmethod
 import requests
 
+def default_filter_v1(link):
+    return len(link.text) > 10
+
+def default_filter_v2(link):
+    return len(link.text.split(' ')) > 4
+
 class ScrapeUnit(ABC):
     def __init__(self):
         return
@@ -25,9 +31,10 @@ class Scraper():
         return
 
 class AutomaticScraper():
-    def __init__(self, steps: int = 3, verbal=False) -> None:
+    def __init__(self, steps: int = 3, verbal=False, sort_function=default_filter_v2) -> None:
         self.steps = steps
         self.verbal = verbal
+        self.sort_function = sort_function
         return
     
     def run(self, url):
@@ -40,8 +47,11 @@ class AutomaticScraper():
             print(f"SUCESS: {url}\nSTATUS CODE: {response.status_code}")
 
             links = soup.find_all("a")
-            links = [link.text for link in links]
-            print(len(links))
+            links = list(filter(self.sort_function, links))
+
+
+            for link in links:
+                print(link.text)
         else:
             print(f"ERROR: Failed to request {url}\n\
                   Status code: {response.status_code}")
