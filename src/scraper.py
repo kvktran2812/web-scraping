@@ -1,8 +1,5 @@
 from bs4 import BeautifulSoup
 import networkx as nx
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium import webdriver
 from abc import ABC, abstractmethod
 import requests
 
@@ -57,7 +54,6 @@ class AutomaticScraper():
                   Status code: {response.status_code}")
         return
 
-
 #########################################
 # Some soft test script below here
 
@@ -79,5 +75,3 @@ class AutomaticScraper():
 
 
 ### 
-automatic = AutomaticScraper()
-automatic.run("https://news.google.com/home?hl=en-US&gl=US&ceid=US:en")
